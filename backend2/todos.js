@@ -26,6 +26,10 @@ const router = express.Router();
 const pool = require('./db');
 
 
+const authMiddleware = require('./middleware')
+
+router.use(authMiddleware)
+
 // ── GET /todos ────────────────────────────────────────────────
 // Restituisce tutte le task ordinate per data di creazione.
 // async/await ci permette di scrivere codice asincrono
@@ -34,7 +38,7 @@ router.get('/', async (req, res) => {
     try {
         // pool.query() esegue la query SQL e restituisce
         // un oggetto `result` con proprietà `rows` (array di righe)
-        const result = await pool.query('SELECT * FROM todos ORDER BY created_at ASC');
+        const result = await pool.query('SELECT * FROM todos WHERE user_id = $1 ORDER BY created_at ASC',[req.userId]);
 
         // Rispondiamo con l'array di task in formato JSON.
         // res.json() imposta automaticamente Content-Type: application/json
@@ -71,8 +75,8 @@ router.post('/', async (req, res) => {
         // RETURNING * fa sì che PostgreSQL restituisca la riga appena inserita
         // (completa di id, created_at, ecc. generati dal DB).
         const result = await pool.query(
-            'INSERT INTO todos (testo) VALUES ($1) RETURNING *',
-            [testo.trim()]
+            'INSERT INTO todos (testo, user_id) VALUES ($1, $2) RETURNING *',
+            [testo.trim(), req.userId]
         );
 
         // HTTP 201 Created: indica che la risorsa è stata creata.
@@ -100,8 +104,8 @@ router.patch('/:id', async (req, res) => {
         // $1 = completato, $2 = id
         // RETURNING * restituisce la riga aggiornata
         const result = await pool.query(
-            'UPDATE todos SET completato = $1 WHERE id = $2 RETURNING *',
-            [completato, id]
+            'UPDATE todos SET completato = $1 WHERE id = $2 AND user_id = $3 RETURNING *',
+            [completato, id, req.userId]
         );
 
         // rowCount indica quante righe sono state modificate.
@@ -123,8 +127,8 @@ router.delete('/:id', async (req, res) => {
     try {
         // req.params.id contiene l'id nell'URL (es. /todos/5 → '5')
         const result = await pool.query(
-            'DELETE FROM todos WHERE id = $1',
-            [req.params.id]
+            'DELETE FROM todos WHERE id = $1 AND user_id = $2',
+            [req.params.id, req.userId]
         );
 
         // Se nessuna riga è stata eliminata, l'id non esiste → 404

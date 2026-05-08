@@ -20,6 +20,7 @@ const cors = require('cors');
 // Importiamo il router con tutte le route /todos
 // (definite in todos.js)
 const todosRoutes = require('./todos');
+const authRoutes = require('./auth')
 
 // dotenv carica le variabili dal file .env in process.env
 require('dotenv').config();
@@ -52,7 +53,7 @@ app.use(express.json());
 //     POST /todos → router.post('/')
 //     PATCH /todos/5 → router.patch('/:id')
 app.use('/todos', todosRoutes);
-
+app.use('/auth', authRoutes)
 
 // ── ROUTE DI HEALTH CHECK ─────────────────────────────────────
 // Endpoint semplice per verificare che il server sia attivo.

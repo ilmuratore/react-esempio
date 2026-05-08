@@ -40,7 +40,7 @@ router.post('/login' , async(req, res) => {
     }
 
     try{
-        const result = await pool.query('SELECT id FROM users WHERE email = $1', [email])
+        const result = await pool.query('SELECT * FROM users WHERE email = $1', [email])
         if(result.rows.length === 0){
             return res.status(400).json({ errore: 'Credenziali non valide'});
         }
@@ -79,7 +79,7 @@ router.get('/me', async(req, res) =>{
         if(result.rows.length === 0){
             return res.status(404).json({ errore: 'Utente non trovato'})
         }
-        
+
         res.status(201).json({ user: result.rows[0]})
 
     } catch (err) {
