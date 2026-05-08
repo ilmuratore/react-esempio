@@ -1,0 +1,475 @@
+/* ============================================================
+   App.css — Stili dell'applicazione Todo List
+   ============================================================
+   Struttura:
+     1. Reset globale
+     2. Body / layout pagina
+     3. Contenitore principale (.app)
+     4. Campo di input (.todo-input)
+     5. Barra filtri (.todo-filtri)
+     6. Lista (.todo-lista)
+     7. Singolo item (.todo-item)
+     8. Footer (.todo-footer)
+   ============================================================ */
+
+
+/* ── 1. RESET GLOBALE ─────────────────────────────────────── */
+/* Azzera margini e padding predefiniti del browser per tutti
+   gli elementi, così partiamo con una base uniforme.
+   box-sizing: border-box → width e height includono padding
+   e bordo (più intuitivo per i calcoli di layout). */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* ── 2. BODY / LAYOUT PAGINA ─────────────────────────────── */
+body {
+  font-family: sans-serif;
+  background: linear-gradient(180deg, rgb(168, 43, 235), rgb(92, 30, 225)); /* Sfondo viola/lavanda */
+
+  /* Flexbox per centrare orizzontalmente il contenuto */
+  display: flex;
+  justify-content: center;
+
+  padding: 40px 20px; /* Spazio sopra/sotto e laterale */
+}
+
+
+/* ── 3. CONTENITORE PRINCIPALE ───────────────────────────── */
+/* Limita la larghezza massima dell'app a 480px per renderla
+   leggibile anche su schermi larghi. */
+.app {
+  width: 100%;
+  max-width: 480px;
+}
+
+.app h1 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: white
+}
+
+
+/* ── 4. CAMPO DI INPUT ───────────────────────────────────── */
+.todo-input {
+  display: flex;       /* Input e pulsante fianco a fianco */
+  margin-bottom: 12px;
+  gap: 8px;            /* Spazio tra input e pulsante */
+}
+
+.todo-input input {
+  flex: 1; /* L'input occupa tutto lo spazio orizzontale disponibile */
+  padding: 4px 12px;
+  border: 2px solid rgb(124, 124, 196);
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none; /* Rimuove il bordo di focus predefinito del browser */
+}
+
+/* Bordo più scuro quando il campo è attivo (focus) */
+.todo-input input:focus {
+  border-color: rgb(7, 32, 157);
+}
+
+.todo-input button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  background: rgb(124, 124, 196);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 200;
+}
+
+
+/* ── 5. BARRA FILTRI ─────────────────────────────────────── */
+.todo-filtri {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.todo-filtri button {
+  padding: 6px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  background: rgb(124, 124, 196);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 400;
+
+}
+
+/* Stile del pulsante filtro ATTIVO (classe aggiunta dinamicamente
+   da TodoFiltri.jsx quando filtroAttivo === questo filtro) */
+.todo-filtri button.Incompleti {
+  background: rgb(41, 41, 137); /* Blu più scuro per evidenziare */
+  border-color: blue;
+}
+
+
+/* ── 6. LISTA ─────────────────────────────────────────────── */
+.todo-lista {
+  list-style: none;    /* Rimuove i pallini/numeri della lista */
+  display: flex;
+  flex-direction: column; /* Gli item si impilano in verticale */
+  gap: 10px;              /* Spazio tra un item e l'altro */
+}
+
+/* Messaggio mostrato quando la lista è vuota */
+.lista-vuota {
+  text-align: center;
+  color: white;
+  padding: 30px 0;
+}
+
+
+/* ── 7. SINGOLO ITEM ─────────────────────────────────────── */
+.todo-item {
+  display: flex;
+  align-items: center;          /* Centra verticalmente icona, testo e X */
+  justify-content: space-between;
+  gap: 12px;
+  background: white;
+  border: 1px solid rgb(34, 34, 198);
+  border-radius: 5px;
+  padding: 14px 16px;
+  font-size: 1rem;
+  color: blue;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Ombra leggera */
+}
+
+/* Pulsante "X" per eliminare la task */
+.todo-item .elimina {
+  background: rgb(7, 32, 157);
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 2px 6px;
+  border-radius: 50%; /* Forma circolare */
+}
+
+/* Hover sul pulsante elimina: inverte i colori */
+.todo-item .elimina:hover {
+  background: white;
+  color: rgb(7, 32, 157);
+}
+
+/* Testo barrato per le task completate.
+   La classe 'completato' viene aggiunta dinamicamente da TodoItem.jsx */
+.todo-item.completato .testo {
+  text-decoration: line-through;
+  color: blue;
+}
+
+/* L'icona (👌/⛔) deve sembrare cliccabile */
+.icona {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Il testo è cliccabile (mostra la manina) */
+.testo {
+  cursor: pointer;
+}
+
+
+/* ── 8. FOOTER ───────────────────────────────────────────── */
+.todo-footer {
+  display: flex;
+  justify-content: space-between; /* Contatore a sx, pulsante a dx */
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 20px;
+  border-top: 1px solid rgb(7, 32, 157); /* Linea separatrice */
+  color: white;
+  font-size: 0.8rem;
+}
+
+.todo-footer button {
+  padding: 6px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  background: rgb(124, 124, 196);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 200;
+
+}
+
+/* Hover: inverti i colori come per il pulsante elimina */
+.todo-footer button:hover {
+  background: white;
+  color: rgb(7, 32, 157);
+}
+
+
+.layout{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo{
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+}
+
+.layout-header nav{
+  display: flex;
+  gap: 20px;
+}
+
+.layout-header a{
+  color: white;
+  text-decoration: none;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+
+.layout-header a.attivo,
+.layout-header a:hover{
+  color: rgb(7, 32, 157);
+  border-bottom-color: rgb(7, 32, 157);
+}
+
+.layout-main{
+  flex:1;
+  padding: 32px 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.detail-card{
+  background: white;
+  border-radius: 5px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 1);
+}
+
+.detail-row .label{
+  width: 100px;
+  font-weight: 600;
+  color: black;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+
+.detail-row{
+  display: flex;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgb(120, 118, 118);
+}
+
+.detail-action{
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.detail-action button{
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background: rgb(124, 124, 196);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.btn-back{
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  background: rgb(124, 124, 196);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 200;
+  margin-bottom: 10px;
+
+}
+
+
+.detail-action button:hover{
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 1);
+}
+
+.btn-danger { background: rgb(250, 50, 50)!important;}
+
+
+.stats-grid{
+  display: flex;
+  grid-template-columns: repeat(2,1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+
+}
+
+
+.stats-card{
+  background: white;
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stats-numero{
+   font-size: 2.2rem;
+   font-weight: 600;
+  }
+
+
+.stats-label{
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+
+.progress-bar-container{
+  background: rgb(145, 145, 217);
+  border-radius: 999px;
+  height: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 1);
+}
+
+.progress-bar-fill{
+  background: rgb(140, 32, 198);
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+.auth-container{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(168, 43, 235);
+  padding: 20px;
+}
+
+
+.auth-card{
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 1);
+}
+
+.auth-card h1{
+  color: rgb(168, 43, 235);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.auth-card form{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-card input{
+  padding: 12px;
+  border: 2px solid rgb(124, 124, 196);
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.auth-card input:focus{
+  outline: none;
+  border-color: rgb(168, 43, 235);
+}
+
+.auth-card button{
+  padding: 6px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  background: rgb(124, 124, 196);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 200; 
+}
+
+.auth-card button:hover{
+  opacity: 0.8;
+}
+
+.auth-card .errore{
+  color: red;
+  font-size: 0.9rem;
+  margin: 0;
+  text-align: center;
+}
+
+.auth-link{
+  text-align: center;
+  margin-top: 16px;
+  color: rgb(168, 43, 235);
+  font-size: 0.9rem;
+}
+
+.auth-link a{
+  color: rgb(7, 32, 157);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.auth-link a:hover{
+  text-decoration: underline;
+}
+
+.layout-user{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-email{
+  color: rgb(9, 9, 121);
+  font-size: 0.85rem
+}
+
+.btn-logout{
+  padding: 6px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  background: rgb(124, 124, 196);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 200; 
+}
+
+.btn-logout:hover{
+  opacity: 0.8;
+}
