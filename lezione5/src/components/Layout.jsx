@@ -1,32 +1,9 @@
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { Outlet, NavLink } from "react-router-dom";
+import { useAuth } from '../context/useAuth'
 
 function Layout() {
 
-  const [user, setUser] = useState(null)
-  const navigate = useNavigate()
-
-
-  useEffect( () => {
-    const token = sessionStorage.getItem('token')
-    if(!token) return 
-
-    fetch('http://localhost:3000/auth/me', {
-      headers: { 'Authorization' : `Bearer ${token}`}
-    })
-    .then(res => res.json())
-    .then(data => setUser(data.user))
-    .catch( () => {
-      sessionStorage.removeItem('token')
-      navigate('/login')
-    })
-  }, [navigate])
-
-  function handleLogout(){
-    sessionStorage.removeItem('token')
-    navigate('/login')
-  }
-
+  const { user, logout } = useAuth()
 
   return (
     <>
@@ -40,7 +17,7 @@ function Layout() {
 
           <div className="layout-user">
             {user && <span className="user-email">{user.email}</span>}
-            <button onClick={handleLogout} className="btn-logout">Logout</button>
+            <button onClick={logout} className="btn-logout">Logout</button>
           </div>
         </header>
 

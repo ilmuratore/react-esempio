@@ -34,8 +34,8 @@ function App() {
         <Route index element={<TodoPage/>}/>
         <Route path='task/:id' element={<DettaglioTask/>}/>
         <Route path='stats' element={<StatsPage/>}/>
-        <Route path='*' element={<NotFound/>}/>
       </Route>
+      <Route path='*' element={<NotFound/>}/>
     </Routes>
     </>
 

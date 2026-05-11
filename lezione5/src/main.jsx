@@ -24,6 +24,8 @@ import App from "./App.jsx";
 //Il componente che elabora le routes della nostra SPA
 import { BrowserRouter } from "react-router-dom";
 
+import { AuthProvider } from "./context/AuthProvider.jsx";
+
 // Trova l'elemento <div id="root"> in index.html,
 // lo "trasforma" in un root React e ci renderizza <App />.
 // StrictMode fa da involucro: in produzione è trasparente,
@@ -31,7 +33,9 @@ import { BrowserRouter } from "react-router-dom";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
 );

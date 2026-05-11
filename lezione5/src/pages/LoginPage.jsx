@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { login } from '../api/auth';
+import { useAuth} from '../context/useAuth'
 import { useNavigate, Link} from 'react-router-dom'
 
 function LoginPage(){
@@ -7,14 +7,13 @@ function LoginPage(){
     const [password, setPassword] = useState('');
     const [errore, setErrore] = useState(null);
     const navigate = useNavigate();
-
+    const { login } = useAuth(); // customHook 
 
     async function handleSubmit(e){
         e.preventDefault();
         setErrore('')
         try{
-            const data = await login(email, password)
-            sessionStorage.setItem('token', data.token)
+            await login(email, password)
             navigate('/')
         } catch(err){
             setErrore(err.message)
