@@ -35,6 +35,11 @@ Node.js • Express.js • RESTful API • PostgreSQL • SQL Queries • bcrypt
 ### Tools & Deployment
 Vite • npm/npx • Git/GitHub • DBeaver • Postman • Vercel Deployment
 
+## 📸 Screenshots
+
+![TodoList](screenshots/todolist.png)
+![Libreria](screenshots/libreria.png)
+
 ---
 
 ## 📖 Struttura del Corso
